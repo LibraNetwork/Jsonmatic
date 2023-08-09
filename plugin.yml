@@ -1,0 +1,9 @@
+name: Jsonmatic
+main: Jsonmatic\Loader
+api: 5.3.2
+version: 0.1
+author: ByNamles
+
+permissions:
+  jsonmatic.command:
+    default: op
