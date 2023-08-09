@@ -7,5 +7,6 @@ Command | Description | Permission
 --- | --- | ---
 `/jsonmatic` | Jsonmatic command | jsonmatic.command
 
-#Credit
+# Credit
+
 [BuilderTools](https://github.com/CzechPMDevs/BuilderTools/tree/2.0.0)
