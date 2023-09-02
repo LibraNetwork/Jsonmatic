@@ -92,7 +92,7 @@ class JsonmaticCommand extends Command
                         return;
                     }
                     $sender->sendMessage(TextFormat::GREEN . "Jsonmatic pasting has been started.");
-                    JsonmaticManager::getInstance()->pasteJsonmatic($sender, $args[1]);
+                    JsonmaticManager::getInstance()->pasteJsonmatic($sender->getPosition(), $sender->getWorld(), $args[1], $sender);
                     break;
                 case "delete":
                     if (!isset($args[1])) {

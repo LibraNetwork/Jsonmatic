@@ -9,6 +9,8 @@ use Jsonmatic\object\FillSession;
 use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;
 use pocketmine\utils\TextFormat;
+use pocketmine\world\Position;
+use pocketmine\world\World;
 
 class JsonmaticManager
 {
@@ -38,16 +40,16 @@ class JsonmaticManager
         return array_keys(self::$loadedJsonmatic);
     }
 
-    public function pasteJsonmatic(Player $player, string $jsonmaticName): void
+    public function pasteJsonmatic(Position $position, World $world, string $jsonmaticName, Player $player = null): void
     {
         $startTime = microtime(true);
         $jsonmatic = self::$loadedJsonmatic[$jsonmaticName];
 
-        $fillSession = new FillSession($player->getWorld(), true, true);
+        $fillSession = new FillSession($world, true, true);
 
-        $floorX = $player->getPosition()->getFloorX();
-        $floorY = $player->getPosition()->getFloorY();
-        $floorZ = $player->getPosition()->getFloorZ();
+        $floorX = $position->getFloorX();
+        $floorY = $position->getFloorY();
+        $floorZ = $position->getFloorZ();
 
         $iterator = new BlockArrayIteratorHelper($jsonmatic);
         while ($iterator->hasNext()) {
@@ -55,9 +57,9 @@ class JsonmaticManager
             if ($fullStateId !== 0) $fillSession->setBlockAt($floorX + $x, $floorY + $y, $floorZ + $z, $fullStateId);
         }
 
-        $fillSession->reloadChunks($player->getWorld());
+        $fillSession->reloadChunks($world);
         $fillSession->close();
-        if ($player->isOnline()) $player->sendMessage(TextFormat::GREEN . "Jsonmatic was pasted within " . microtime(true) - $startTime . " seconds.");
+        if (!is_null($player) && $player->isOnline()) $player->sendMessage(TextFormat::GREEN . "Jsonmatic was pasted within " . microtime(true) - $startTime . " seconds.");
     }
 
     public function deleteJsonmatic(string $jsonmaticName): void
