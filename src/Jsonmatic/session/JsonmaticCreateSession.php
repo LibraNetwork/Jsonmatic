@@ -78,6 +78,6 @@ class JsonmaticCreateSession
                 }
             }
         }
-        Server::getInstance()->getAsyncPool()->submitTask(new JsonmaticSaveAsyncTask($playerName, $startTime, $this->getJsonmaticName(), $blocks));
+        Server::getInstance()->getAsyncPool()->submitTask(new JsonmaticSaveAsyncTask($playerName, $startTime, $blocks, Server::getInstance()->getDataPath() . "plugin_data/Jsonmatic/" . $this->getJsonmaticName() . ".json"));
     }
 }

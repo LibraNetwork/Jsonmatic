@@ -15,7 +15,7 @@ class JsonmaticSaveAsyncTask extends AsyncTask
     private string $blockArray;
 
 
-    public function __construct(private string $playerName, private float $startTime, private string $jsonmaticName, BlockArray $blockArray)
+    public function __construct(private string $playerName, private float $startTime, BlockArray $blockArray, private string $path)
     {
         $this->blockArray = serialize($blockArray);
     }
@@ -33,7 +33,7 @@ class JsonmaticSaveAsyncTask extends AsyncTask
         for ($i = 0; $i < count($newCoords); $i++) {
             $result[$newCoords[$i]] = $blocks[$i];
         }
-        file_put_contents("/root/plugin_data/Jsonmatic/" . $this->jsonmaticName. ".json", json_encode($result));
+        file_put_contents($this->path, json_encode($result));
     }
 
     public function onCompletion(): void
