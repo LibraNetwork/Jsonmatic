@@ -7,11 +7,13 @@ namespace Jsonmatic\util;
 use Jsonmatic\Loader;
 use pocketmine\math\Vector3;
 
-class JsonmaticUtil
-{
+class JsonmaticUtil{
 
-    public static function getCenterPosition(string $jsonmaticName): Vector3
-    {
+    /**
+     * @param string $jsonmaticName
+     * @return Vector3
+     */
+    public static function getCenterPosition(string $jsonmaticName): Vector3{
         $jsonmatic = json_decode(file_get_contents(Loader::getInstance()->getDataFolder() . $jsonmaticName . ".json"), true);
         $xCoordinates = array_map(fn ($coordinate) => explode(":", $coordinate)[0], array_keys($jsonmatic));
         $yCoordinates = array_map(fn ($coordinate) => explode(":", $coordinate)[1], array_keys($jsonmatic));

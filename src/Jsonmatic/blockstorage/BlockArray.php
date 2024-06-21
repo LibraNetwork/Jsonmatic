@@ -25,66 +25,68 @@ use pocketmine\world\World;
 use function count;
 use function in_array;
 
-final class BlockArray {
+final class BlockArray{
+
     /** @var int[] */
     public array $blocks = [];
+
     /** @var int[] */
     public array $coords = [];
 
-    /**
-     * Fields to avoid allocating memory every time when writing or reading
-     * block from the array
-     */
     protected int $lastHash;
 
+    /**
+     * @param bool $detectDuplicates
+     */
     public function __construct(
         protected bool $detectDuplicates = false
-    ) {}
+    ){}
 
     /**
-     * Adds block to the block array
-     *
+     * @param Vector3 $vector3
+     * @param int $fullStateId
      * @return $this
      */
-    public function addBlock(Vector3 $vector3, int $fullStateId): BlockArray {
+    public function addBlock(Vector3 $vector3, int $fullStateId): BlockArray{
         return $this->addBlockAt($vector3->getFloorX(), $vector3->getFloorY(), $vector3->getFloorZ(), $fullStateId);
     }
 
     /**
-     * Adds block to the block array
-     *
+     * @param int $x
+     * @param int $y
+     * @param int $z
+     * @param int $fullStateId
      * @return $this
      */
-    public function addBlockAt(int $x, int $y, int $z, int $fullStateId): BlockArray {
+    public function addBlockAt(int $x, int $y, int $z, int $fullStateId): BlockArray{
         $this->lastHash = World::blockHash($x, $y, $z);
-        if($this->detectDuplicates && in_array($this->lastHash, $this->coords, true)) {
+
+        if ($this->detectDuplicates && in_array($this->lastHash, $this->coords, true)){
             return $this;
         }
-
         $this->coords[] = $this->lastHash;
         $this->blocks[] = $fullStateId;
-
         return $this;
     }
 
     /**
-     * @return int $size
+     * @return int
      */
-    public function size(): int {
+    public function size(): int{
         return count($this->coords);
     }
 
     /**
      * @return int[]
      */
-    public function getBlockArray(): array {
+    public function getBlockArray(): array{
         return $this->blocks;
     }
 
     /**
      * @return int[]
      */
-    public function getCoordsArray(): array {
+    public function getCoordsArray(): array{
         return $this->coords;
     }
 }

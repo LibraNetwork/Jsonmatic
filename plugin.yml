@@ -1,7 +1,7 @@
 name: Jsonmatic
 main: Jsonmatic\Loader
-api: 5.3.2
-version: 0.1
+api: 5.16.0
+version: 1.0
 author: ByNamles
 
 permissions:

@@ -24,28 +24,40 @@ use Jsonmatic\blockstorage\BlockArray;
 use pocketmine\world\World;
 use function count;
 
-class BlockArrayIteratorHelper {
+class BlockArrayIteratorHelper{
+
     protected int $lastHash;
 
+    /**
+     * @param BlockArray $blockArray
+     * @param int $offset
+     */
     public function __construct(
         protected BlockArray $blockArray,
         protected int $offset = 0
-    ) {}
+    ){}
 
     /**
-     * Returns if it is possible read next block from the array
+     * @return bool
      */
-    public function hasNext(): bool {
+    public function hasNext(): bool{
         return $this->offset < count($this->blockArray->blocks);
     }
 
     /**
-     * Reads next block in the array
+     * @param int|null $x
+     * @param int|null $y
+     * @param int|null $z
+     * @param int|null $fullStateId
+     * @return void
      */
-    public function readNext(?int &$x, ?int &$y, ?int &$z, ?int &$fullStateId): void {
+    public function readNext(?int &$x, ?int &$y, ?int &$z, ?int &$fullStateId): void{
         $this->lastHash = $this->blockArray->coords[$this->offset];
-
         World::getBlockXYZ($this->lastHash, $x, $y, $z);
         $fullStateId = $this->blockArray->blocks[$this->offset++];
+    }
+
+    public function resetOffset(): void{
+        $this->offset = 0;
     }
 }
